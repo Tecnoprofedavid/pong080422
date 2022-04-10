@@ -5,8 +5,8 @@ input.onButtonPressed(Button.A, function () {
     }
 })
 function posición_inicial () {
-    paleta1 = game.createSprite(2, 3)
-    paleta2 = game.createSprite(3, 3)
+    paleta1 = game.createSprite(2, 4)
+    paleta2 = game.createSprite(3, 4)
     pelota = game.createSprite(2, 0)
     pelota.change(LedSpriteProperty.Direction, 270 + randint(45, -45))
 }
@@ -21,7 +21,7 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 function moverpelota () {
-    basic.pause(400)
+    basic.pause(500)
     pelota.move(1)
     pelota.ifOnEdgeBounce()
     if (pelota.isTouching(paleta1)) {
@@ -32,14 +32,18 @@ function moverpelota () {
         pelota.change(LedSpriteProperty.Direction, 180 + randint(-45, 0))
         Puntos += 1
     }
-    if (pelota.get(LedSpriteProperty.Y) > 3) {
-        basic.pause(500)
-        Vidas += -1
-        basic.showIcon(IconNames.Triangle)
-        pelota.delete()
-        paleta1.delete()
-        paleta2.delete()
-        posición_inicial()
+    if (pelota.get(LedSpriteProperty.Y) == 4) {
+        if (pelota.isTouching(paleta1) || pelota.isTouching(paleta2)) {
+            moverpelota()
+        } else {
+            basic.pause(500)
+            Vidas += -1
+            basic.showIcon(IconNames.No)
+            pelota.delete()
+            paleta1.delete()
+            paleta2.delete()
+            posición_inicial()
+        }
     }
 }
 let pelota: game.LedSprite = null
